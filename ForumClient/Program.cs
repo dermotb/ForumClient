@@ -10,6 +10,7 @@ namespace ForumClient
     {
         static void Main(string[] args)
         {
+            PostAPost().Wait();
             GetAllPosts().Wait();
         }
 
@@ -31,10 +32,31 @@ namespace ForumClient
                     Console.WriteLine(usp.ToString());
                 }
             }
+            else
+            {
+                Console.WriteLine(response.StatusCode +" ReasonPhrase: "+response.ReasonPhrase);
+            }
+        }
 
+        private static async Task PostAPost()
+        {
+            HttpClient client = new HttpClient();
 
+            client.BaseAddress = new Uri("http://localhost:53368/");
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+            userPost post = new userPost() { ID = 0, TimeStamp = DateTime.Now, Subject = "Client Post", Message = "This is from the client app" };
 
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Forum", post);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Post was added!");
+            }
+            else
+            {
+                Console.WriteLine(response.StatusCode + " ReasonPhrase: " + response.ReasonPhrase);
+            }
         }
     }
 }
