@@ -45,7 +45,7 @@ namespace ForumClient
             client.BaseAddress = new Uri("http://localhost:53368/");
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            userPost post = new userPost() { ID = 0, TimeStamp = DateTime.Now, Subject = "Client Post", Message = "This is from the client app" };
+            userPost post = new userPost() { ID = 0, TimeStamp = DateTime.Now, Subject = "Client DB Post", Message = "This is from the client to the database" };
 
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Forum", post);
 
